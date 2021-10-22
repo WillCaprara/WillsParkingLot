@@ -19,23 +19,44 @@ namespace WillsParkingLot.Data.Repositories.Implementation
 
         public async Task<IEnumerable<Parking>> GetAllCarsCurrentlyInThePrkingLot()
         {
-            return await _dbContext.Parkings.Include(c=> c.Car).Where(x => x.LeaveTime == null).ToListAsync();
+            return await _dbContext.Parkings.Include(c=> c.Car)
+                                            .Where(x => x.LeaveTime == null).ToListAsync();
         }
 
         public async Task<IEnumerable<Parking>> GetAllCarsThatHaveLeftTheParkingLot(DateTime dtFrom, DateTime dtToo)
         {
-            //return await _dbContext.Parkings.Include(c => c.Car).Where(x => x.LeaveTime != null).ToListAsync();
-
-            return await _dbContext.Parkings.Include(c => c.Car).Where(x => x.LeaveTime >= dtFrom && x.LeaveTime <= dtToo).ToListAsync();
+            return await _dbContext.Parkings.Include(c => c.Car)
+                                            .Where(x => x.LeaveTime >= dtFrom && x.LeaveTime <= dtToo).ToListAsync();
         }
 
-        public async Task<IEnumerable<Parking>> SearchCars(Parking parking)
+        public async Task<IEnumerable<Parking>> SearchCarsAsync(Parking parking)
         {
-            return await _dbContext.Parkings.Include(c => c.Car)
-                .Where(x => x.Car.LicensePlate.ToUpper().Contains(parking.Car.LicensePlate.ToUpper()) 
-                       && x.Car.Model.ToUpper().Contains(parking.Car.Model.ToUpper()) 
-                       && x.Car.Color.ToUpper().Contains(parking.Car.Color.ToUpper()) 
-                       && x.Car.Type == parking.Car.Type).ToListAsync();
+            var result = new List<Parking>();
+
+            switch (parking.Car.Type)
+            {
+                case Enums.CarType.All:
+                    {
+                        result= await _dbContext.Parkings.Include(c => c.Car)
+                                            .Where(x => x.Car.LicensePlate.Trim().ToUpper().Contains(parking.Car.LicensePlate.Trim().ToUpper())
+                                                    && x.Car.Model.ToUpper().Trim().Contains(parking.Car.Model.Trim().ToUpper())
+                                                    && x.Car.Color.ToUpper().Trim().Contains(parking.Car.Color.Trim().ToUpper())).ToListAsync();
+                    }
+                    break;
+                case Enums.CarType.Compact:
+                case Enums.CarType.SUV:
+                case Enums.CarType.Large:
+                    {
+                        result= await _dbContext.Parkings.Include(c => c.Car)
+                                            .Where(x => x.Car.LicensePlate.Trim().ToUpper().Contains(parking.Car.LicensePlate.Trim().ToUpper())
+                                                    && x.Car.Model.Trim().ToUpper().Contains(parking.Car.Model.Trim().ToUpper())
+                                                    && x.Car.Color.Trim().ToUpper().Contains(parking.Car.Color.Trim().ToUpper())
+                                                    && x.Car.Type == parking.Car.Type).ToListAsync();
+                    }
+                    break;
+            }
+
+            return result;
         }
 
         public Parking GetByParkingId(int parkingId)

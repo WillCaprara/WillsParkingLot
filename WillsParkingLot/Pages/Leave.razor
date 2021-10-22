@@ -8,29 +8,33 @@
 
 <h2>Check out Vehicle</h2>
 
-<div>
-    <div>
-        <div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
             <label for="txtLicensePlate">License Plate: </label>
-            <input type="text" id="txtLicensePlate" @bind="@car.LicensePlate" required />
+            <input class="form-control" type="text" id="txtLicensePlate" @bind="@car.LicensePlate" required />
 
             <label for="txtModel">Model: </label>
-            <input type="text" id="txtModel" @bind="@car.Model" required />
+            <input class="form-control" type="text" id="txtModel" @bind="@car.Model" required />
 
             <label for="txtColor">Color: </label>
-            <input type="text" id="txtColor" @bind="@car.Color" required />
+            <input class="form-control" type="text" id="txtColor" @bind="@car.Color" required />
 
             <label for="ddlType">Type: </label>
-            <select id="ddlType" @bind="@car.Type">
+            <select class="form-control" id="ddlType" @bind="@car.Type">
                 @foreach (var carType in Enum.GetValues(typeof(CarType)))
                 {
-                    <option>@carType</option>
+                    <option value="@carType">@carType</option>
                 }
             </select>
+            <br />
+            <div>
+                <button id="btnSearch" class="btn-primary" @onclick="SearchCars">Search</button>
+            </div>
         </div>
-        <br />
-        <div>
-            <button id="btnSearch" class="btn-outline-primary" @onclick="SearchCars">Search</button>
+        <div class="col-md-4">
+            <h3>Total Fee for parking:</h3>
+            <h4>$ @parkingFee.TotalParkingFeeCollected</h4>
         </div>
     </div>
     <br />
@@ -61,11 +65,6 @@
             </tbody>
         </table>
     </div>
-</div>
-
-<div>
-    <h3>Total Fee for parking:</h3>
-    <h4>$ @parkingFee.TotalParkingFeeCollected</h4>
 </div>
 
 @code {

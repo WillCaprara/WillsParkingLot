@@ -9,7 +9,7 @@ namespace WillsParkingLot.Data.Repositories
     {
         public Task<IEnumerable<Parking>> GetAllCarsCurrentlyInThePrkingLot();
         public Task<IEnumerable<Parking>> GetAllCarsThatHaveLeftTheParkingLot(DateTime dtFrom, DateTime dtToo);
-        public Task<IEnumerable<Parking>> SearchCars(Parking parking);
+        public Task<IEnumerable<Parking>> SearchCarsAsync(Parking parking);
         public Parking GetByParkingId(int parkingId);
         public void CheckInCar(Parking parking);
         public void CheckOutCar(Parking parking);

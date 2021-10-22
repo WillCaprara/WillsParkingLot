@@ -8,26 +8,31 @@
 
 <h2>Check In Vehicle</h2>
 
-<div>
-    <label for="txtLicensePlate">License Plate: </label>
-    <input type="text" id="txtLicensePlate" @bind="@car.LicensePlate" required />
+<div class="container">
+    <div>
+        <div>
+            <label for="txtLicensePlate">License Plate: </label>
+            <input class="form-control" type="text" id="txtLicensePlate" @bind="@car.LicensePlate" required />
 
-    <label for="txtModel">Model: </label>
-    <input type="text" id="txtModel" @bind="@car.Model" required />
+            <label for="txtModel">Model: </label>
+            <input class="form-control" type="text" id="txtModel" @bind="@car.Model" required />
 
-    <label for="txtColor">Color: </label>
-    <input type="text" id="txtColor" @bind="@car.Color" required />
+            <label for="txtColor">Color: </label>
+            <input class="form-control" type="text" id="txtColor" @bind="@car.Color" required />
 
-    <label for="ddlType">Type: </label>
-    <select id="ddlType" @bind="@car.Type">
-        @foreach (var carType in Enum.GetValues(typeof(CarType)))
-        {
-            <option>@carType</option>
-        }
-    </select>
-</div>
-<div>
-    <button id="btnEnter" value="Confirm" @onclick="CheckInCar">Confirm</button>
+            <label for="ddlType">Type: </label>
+            <select class="form-control" id="ddlType" @bind="@car.Type">
+                @foreach (var carType in Enum.GetValues(typeof(CarType)))
+                {
+                    <option>@carType</option>
+                }
+            </select>
+        </div>
+        <br />
+        <div>
+            <button id="btnEnter" class="btn-primary" value="Confirm" @onclick="CheckInCar">Confirm</button>
+        </div>
+    </div>
 </div>
 
 @code {

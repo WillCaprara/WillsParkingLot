@@ -8,22 +8,22 @@
 
 <h1>How many cars have left</h1>
 
-<div>
+<div class="container">
     <div>
         <div>
             <label for="dtFrom">From: </label>
-            <input type="date" id="dtFrom" @bind="@dtFrom" required />
+            <input class="form-control" type="date" id="dtFrom" @bind="@dtFrom" required />
 
             <label for="dtToo">Model: </label>
-            <input type="date" id="dtToo" @bind="@dtToo" required />
+            <input class="form-control" type="date" id="dtToo" @bind="@dtToo" required />
+        </div>
+        <br />
+        <div>
+            <button id="btnSearch" class="btn-primary" @onclick="SearchCars">Search</button>
         </div>
         <br />
         <div>
             <h3>Total Cars Left in the time period selected: @searchResults.Count()</h3>
-        </div>
-        <br />
-        <div>
-            <button id="btnSearch" class="btn-outline-primary" @onclick="SearchCars">Search</button>
         </div>
     </div>
     <br />
@@ -36,7 +36,7 @@
                     <th>Color</th>
                     <th>Type</th>
                     <th>Check In Date and Time</th>
-                    <th>Check Our Date and Time</th>
+                    <th>Check Out Date and Time</th>
                 </tr>
             </thead>
             <tbody>

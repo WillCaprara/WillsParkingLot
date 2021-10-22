@@ -1,0 +1,64 @@
+﻿@page "/earnings"
+
+@using WillsParkingLot.Enums;
+@using WillsParkingLot.Models;
+@using WillsParkingLot.Services;
+
+@inject ParkingService _parkingService;
+
+<h1>Earnings</h1>
+
+<div class="container">
+    <div>
+        <div>
+            <label for="dtFrom">From: </label>
+            <input class="form-control" type="date" id="dtFrom" @bind="@dtFrom" required />
+
+            <label for="dtToo">Model: </label>
+            <input class="form-control" type="date" id="dtToo" @bind="@dtToo" required />
+
+            <label for="ddlType">Type: </label>
+            <select class="form-control" id="ddlType" @bind="@car.Type">
+                <option value="-1">All</option>
+                @foreach (var carType in Enum.GetValues(typeof(CarType)))
+                {
+                    <option>@carType</option>
+                }
+            </select>
+            <br />
+            <div>
+                <button id="btnGetEarnings" class="btn-primary" @onclick="()=> GetTotalEarnings(dtFrom, dtToo)">Calculate Earnings</button>
+            </div>
+        </div>
+        <br />
+        <div>
+            <div>
+                <h4>Total Earnings: $@earnings.GrandTotal</h4>
+            </div>
+            <br />
+            <div>
+                <h4>Total Earnings for Compact Cars: $@earnings.EarningsForCompactCars</h4>
+            </div>
+            <div>
+                <h4>Total Earnings for SUVs: $@earnings.EarningsForSUVs</h4>
+            </div>
+            <div>
+                <h4>Total Earnings for Large Cars: $@earnings.EarningsForLargeCars</h4>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    Car car = new Car();
+    Models.Earnings earnings = new Models.Earnings();
+    private DateTime dtFrom;
+    private DateTime dtToo;
+
+
+    private async Task GetTotalEarnings(DateTime dtFrom, DateTime dtToo)
+    {
+        earnings = await _parkingService.GetTotalEarnings(dtFrom, dtToo);
+    }
+}
+

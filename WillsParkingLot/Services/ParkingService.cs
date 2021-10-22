@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using WillsParkingLot.Data.Repositories;
 using WillsParkingLot.Helpers;
@@ -46,6 +47,29 @@ namespace WillsParkingLot.Services
             }
         }
 
+        public async Task<Earnings> GetTotalEarnings(DateTime dtFrom, DateTime dtToo)
+        {
+            try
+            {
+                var result = await _parkingFeeRepository.GetEarningsAsync(dtFrom, dtToo);
+
+                var earnings = new Earnings()
+                {
+                    GrandTotal = result.Sum(c => c.TotalParkingFeeCollected),
+                    EarningsForCompactCars = result.Where(c => c.Parking.Car.Type == Enums.CarType.Compact).Sum(c => c.TotalParkingFeeCollected),
+                    EarningsForSUVs = result.Where(c => c.Parking.Car.Type == Enums.CarType.SUV).Sum(c => c.TotalParkingFeeCollected),
+                    EarningsForLargeCars = result.Where(c => c.Parking.Car.Type == Enums.CarType.Large).Sum(c => c.TotalParkingFeeCollected)
+                };
+
+                return earnings;
+                
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public async Task<IEnumerable<Parking>> SearchCars(Car car)
         {
             try
@@ -59,7 +83,7 @@ namespace WillsParkingLot.Services
                     Car = car
                 };
 
-                var result = await _parkingRepository.SearchCars(parking);
+                var result = await _parkingRepository.SearchCarsAsync(parking);
                 return result;
             }
             catch (Exception)

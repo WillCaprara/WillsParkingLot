@@ -2,8 +2,9 @@
 {
     public enum CarType
     {
-        Compact = 0,
-        SUV = 1,
-        Large = 2
+        All = 0,
+        Compact = 1,
+        SUV = 2,
+        Large = 3
     }
 }
