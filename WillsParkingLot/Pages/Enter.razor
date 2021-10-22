@@ -9,37 +9,42 @@
 <h2>Check In Vehicle</h2>
 
 <div class="container">
-    <div>
-        <div>
-            <label for="txtLicensePlate">License Plate: </label>
-            <input class="form-control" type="text" id="txtLicensePlate" @bind="@car.LicensePlate" required />
-
-            <label for="txtModel">Model: </label>
-            <input class="form-control" type="text" id="txtModel" @bind="@car.Model" required />
-
-            <label for="txtColor">Color: </label>
-            <input class="form-control" type="text" id="txtColor" @bind="@car.Color" required />
-
-            <label for="ddlType">Type: </label>
-            <select class="form-control" id="ddlType" @bind="@car.Type">
+    <EditForm Model="@car" OnValidSubmit="@HandleValidSubmit">
+        <DataAnnotationsValidator></DataAnnotationsValidator>
+        <div class="form-group">
+            <label for="txtLicensePlate">LicensePlate</label>
+            <InputText @bind-Value=car.LicensePlate class="form-control" id="txtLicensePlate" />
+        </div>
+        <div class="form-group">
+            <label for="txtModel">Model</label>
+            <InputText @bind-Value=car.Model class="form-control" id="txtModel" />
+        </div>
+        <div class="form-group">
+            <label for="txtColor">Color</label>
+            <InputText @bind-Value=car.Color class="form-control" id="txtColor" />
+        </div>
+        <div class="form-group">
+            <label for="ddlType">Type</label>
+            <InputSelect @bind-Value=car.Type class="form-control" id="ddlType">
                 @foreach (var carType in Enum.GetValues(typeof(CarType)))
                 {
-                    <option>@carType</option>
+                    <option value="@carType">@carType</option>
                 }
-            </select>
+            </InputSelect>
         </div>
-        <br />
-        <div>
-            <button id="btnEnter" class="btn-primary" value="Confirm" @onclick="CheckInCar">Confirm</button>
+        <div class="form-group">
+            <div>
+                <input type="submit" class="btn-primary" value="Confirm" />
+            </div>
         </div>
-    </div>
+    </EditForm>
 </div>
 
 @code {
 
     Car car = new Car();
 
-    private void CheckInCar()
+    private void HandleValidSubmit()
     {
         _parkingService.CheckInCar(car);
         car = new Car();

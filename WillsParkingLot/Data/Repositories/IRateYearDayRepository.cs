@@ -9,6 +9,6 @@ namespace WillsParkingLot.Data.Repositories
 {
     public interface IRateYearDayRepository
     {
-        public Task<IEnumerable<RateYearDay>> GetCurrentRatesByType(CarType type);
+        public Task<IEnumerable<RateYearDay>> GetRatesByCarTypeAsync(CarType carType);
     }
 }

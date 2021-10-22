@@ -18,9 +18,9 @@ namespace WillsParkingLot.Data.Repositories.Implementation
             _dbContext = dbContext;          
         }
 
-        public async Task<IEnumerable<RateYearDay>> GetCurrentRatesByType(CarType type)
+        public async Task<IEnumerable<RateYearDay>> GetRatesByCarTypeAsync(CarType carType)
         {
-            return await _dbContext.RateYearsDays.Where(c => c.CarType == type).ToListAsync();
+            return await _dbContext.RateYearsDays.Where(c => c.CarType == carType).ToListAsync();
         }
     }
 }

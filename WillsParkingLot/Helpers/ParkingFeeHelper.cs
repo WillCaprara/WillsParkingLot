@@ -17,16 +17,25 @@ namespace WillsParkingLot.Helpers
 
         public async Task<decimal?> GetParkingFee(Parking parking)
         {
-            var currentRates = await _rateYearDayRepository.GetCurrentRatesByType(parking.Car.Type);
+            var currentRates = await _rateYearDayRepository.GetRatesByCarTypeAsync(parking.Car.Type);
 
             var totalHoursParked = (parking.LeaveTime.Value - parking.ArriveTime).TotalHours;
             var totalDaysParked = (totalHoursParked / 24 < 1) ? 1 : (totalHoursParked / 24);
 
+            var extraDay = totalDaysParked % 1 > 0 ? 1 : 0;
+
             decimal? parkingFeeToPay = 0;
 
-            for (int i = 1; i <= Math.Truncate(totalDaysParked); i++)
+            var currentParkDate = parking.ArriveTime;
+
+            for (int i = 1; i <= Math.Truncate(totalDaysParked) + extraDay; i++)
             {
-                int dayOfWeek = parking.ArriveTime.DayOfWeek == DayOfWeek.Sunday? 7 : (int)parking.ArriveTime.DayOfWeek;
+                if (i != 1)
+                {
+                    currentParkDate = currentParkDate.AddDays(1);
+                }
+
+                int dayOfWeek = currentParkDate.DayOfWeek == DayOfWeek.Sunday? 7 : (int)currentParkDate.DayOfWeek;
                 var rateForCurrentDay = currentRates.SingleOrDefault(c => c.DayId == dayOfWeek);
 
                 decimal? incrementPercent = 0;

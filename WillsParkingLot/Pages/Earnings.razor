@@ -52,11 +52,11 @@
 @code {
     Car car = new Car();
     Models.Earnings earnings = new Models.Earnings();
-    private DateTime dtFrom;
-    private DateTime dtToo;
+    private DateTime? dtFrom = null;
+    private DateTime? dtToo = null;
 
 
-    private async Task GetTotalEarnings(DateTime dtFrom, DateTime dtToo)
+    private async Task GetTotalEarnings(DateTime? dtFrom, DateTime? dtToo)
     {
         earnings = await _parkingService.GetTotalEarnings(dtFrom, dtToo);
     }

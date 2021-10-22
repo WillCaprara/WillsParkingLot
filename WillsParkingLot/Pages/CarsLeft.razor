@@ -60,8 +60,8 @@
 
     Parking parking = new Parking();
     private IEnumerable<Parking> searchResults = new List<Parking>();
-    private DateTime dtFrom;
-    private DateTime dtToo;
+    private DateTime? dtFrom = null;
+    private DateTime? dtToo = null;
 
     protected override async Task OnInitializedAsync()
     {

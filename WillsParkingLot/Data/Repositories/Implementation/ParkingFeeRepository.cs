@@ -23,11 +23,11 @@ namespace WillsParkingLot.Data.Repositories.Implementation
             _dbContext.SaveChanges();
         }
 
-        public async Task<IEnumerable<ParkingFee>> GetEarningsAsync(DateTime dtFrom, DateTime dtToo)
+        public async Task<IEnumerable<ParkingFee>> GetEarningsAsync(DateTime? dtFrom, DateTime? dtToo)
         {
             return await _dbContext.ParkingFees.Include(c => c.Parking)
                                                .Include(c => c.Parking.Car)
-                                               .Where(c => c.Parking.LeaveTime >= dtFrom.Date && c.Parking.LeaveTime.Value.Date <= dtToo.Date).ToListAsync();
+                                               .Where(c => c.Parking.LeaveTime.Value.Date >= dtFrom.Value.Date && c.Parking.LeaveTime.Value.Date <= dtToo.Value.Date).ToListAsync();
         }
     }
 }

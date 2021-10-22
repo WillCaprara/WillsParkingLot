@@ -13,19 +13,21 @@ namespace WillsParkingLot.Services
         private readonly IParkingRepository _parkingRepository;
         private readonly IParkingFeeHelper _parkingFeeHelper;
         private readonly IParkingFeeRepository _parkingFeeRepository;
+        private readonly IRateYearDayRepository _rateYearRepository;
 
-        public ParkingService(IParkingRepository parkingRepository, IParkingFeeHelper parkingFeeHelper, IParkingFeeRepository parkingFeeRepository)
+        public ParkingService(IParkingRepository parkingRepository, IParkingFeeHelper parkingFeeHelper, IParkingFeeRepository parkingFeeRepository, IRateYearDayRepository rateYearDayRepository)
         {
             _parkingRepository = parkingRepository;
             _parkingFeeHelper = parkingFeeHelper;
             _parkingFeeRepository = parkingFeeRepository;
+            _rateYearRepository = rateYearDayRepository;
         }
 
         public async Task<IEnumerable<Parking>> GetAllCarsCurrentlyInTheParkingLot()
         {
             try
             {
-                var result = await _parkingRepository.GetAllCarsCurrentlyInThePrkingLot();
+                var result = await _parkingRepository.GetAllCarsCurrentlyInThePrkingLotAsync();
                 return result;
             }
             catch (Exception)
@@ -34,11 +36,11 @@ namespace WillsParkingLot.Services
             }
         }
 
-        public async Task<IEnumerable<Parking>> GetAllCarsThatHaveLeftTheParkingLot(DateTime dtFrom, DateTime dtToo)
+        public async Task<IEnumerable<Parking>> GetAllCarsThatHaveLeftTheParkingLot(DateTime? dtFrom, DateTime? dtToo)
         {
             try
             {
-                var result = await _parkingRepository.GetAllCarsThatHaveLeftTheParkingLot(dtFrom, dtToo);
+                var result = await _parkingRepository.GetAllCarsThatHaveLeftTheParkingLotAsync(dtFrom, dtToo);
                 return result;
             }
             catch (Exception)
@@ -47,7 +49,7 @@ namespace WillsParkingLot.Services
             }
         }
 
-        public async Task<Earnings> GetTotalEarnings(DateTime dtFrom, DateTime dtToo)
+        public async Task<Earnings> GetTotalEarnings(DateTime? dtFrom, DateTime? dtToo)
         {
             try
             {
@@ -115,7 +117,8 @@ namespace WillsParkingLot.Services
             try
             {
                 //parking.LeaveTime = new DateTime(2021, 10, 22, 9, 30, 48);
-                parking.LeaveTime = DateTime.Now;
+                parking.LeaveTime = new DateTime(2021, 10, 26, 9, 00, 48);
+                //parking.LeaveTime = DateTime.Now;
                 _parkingRepository.CheckOutCar(parking);
 
                 var totalParkingFee = await _parkingFeeHelper.GetParkingFee(parking);

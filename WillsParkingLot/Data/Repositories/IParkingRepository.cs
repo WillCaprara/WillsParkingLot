@@ -7,8 +7,8 @@ namespace WillsParkingLot.Data.Repositories
 {
     public interface IParkingRepository
     {
-        public Task<IEnumerable<Parking>> GetAllCarsCurrentlyInThePrkingLot();
-        public Task<IEnumerable<Parking>> GetAllCarsThatHaveLeftTheParkingLot(DateTime dtFrom, DateTime dtToo);
+        public Task<IEnumerable<Parking>> GetAllCarsCurrentlyInThePrkingLotAsync();
+        public Task<IEnumerable<Parking>> GetAllCarsThatHaveLeftTheParkingLotAsync(DateTime? dtFrom, DateTime? dtToo);
         public Task<IEnumerable<Parking>> SearchCarsAsync(Parking parking);
         public Parking GetByParkingId(int parkingId);
         public void CheckInCar(Parking parking);
