@@ -1,0 +1,76 @@
+﻿@page "/carsleft"
+
+@using WillsParkingLot.Enums;
+@using WillsParkingLot.Models;
+@using WillsParkingLot.Services;
+
+@inject ParkingService _parkingService;
+
+<h1>How many cars have left</h1>
+
+<div>
+    <div>
+        <div>
+            <label for="dtFrom">From: </label>
+            <input type="date" id="dtFrom" @bind="@dtFrom" required />
+
+            <label for="dtToo">Model: </label>
+            <input type="date" id="dtToo" @bind="@dtToo" required />
+        </div>
+        <br />
+        <div>
+            <h3>Total Cars Left in the time period selected: @searchResults.Count()</h3>
+        </div>
+        <br />
+        <div>
+            <button id="btnSearch" class="btn-outline-primary" @onclick="SearchCars">Search</button>
+        </div>
+    </div>
+    <br />
+    <div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>License Plate</th>
+                    <th>Model</th>
+                    <th>Color</th>
+                    <th>Type</th>
+                    <th>Check In Date and Time</th>
+                    <th>Check Our Date and Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var parking in searchResults)
+                {
+                    <tr>
+                        <td>@parking.Car.LicensePlate</td>
+                        <td>@parking.Car.Model</td>
+                        <td>@parking.Car.Color</td>
+                        <td>@parking.Car.Type</td>
+                        <td>@parking.ArriveTime</td>
+                        <td>@parking.LeaveTime</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@code {
+
+    Parking parking = new Parking();
+    private IEnumerable<Parking> searchResults = new List<Parking>();
+    private DateTime dtFrom;
+    private DateTime dtToo;
+
+    protected override async Task OnInitializedAsync()
+    {
+        searchResults = await _parkingService.GetAllCarsThatHaveLeftTheParkingLot(dtFrom, dtToo);
+    }
+
+    private async Task SearchCars()
+    {
+        searchResults = await _parkingService.GetAllCarsThatHaveLeftTheParkingLot(dtFrom, dtToo);
+    }
+}
+

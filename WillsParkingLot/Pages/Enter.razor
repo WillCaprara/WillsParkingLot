@@ -1,0 +1,42 @@
+﻿@page "/enter"
+
+@using WillsParkingLot.Enums;
+@using WillsParkingLot.Models;
+@using WillsParkingLot.Services;
+
+@inject ParkingService _parkingService;
+
+<h2>Check In Vehicle</h2>
+
+<div>
+    <label for="txtLicensePlate">License Plate: </label>
+    <input type="text" id="txtLicensePlate" @bind="@car.LicensePlate" required />
+
+    <label for="txtModel">Model: </label>
+    <input type="text" id="txtModel" @bind="@car.Model" required />
+
+    <label for="txtColor">Color: </label>
+    <input type="text" id="txtColor" @bind="@car.Color" required />
+
+    <label for="ddlType">Type: </label>
+    <select id="ddlType" @bind="@car.Type">
+        @foreach (var carType in Enum.GetValues(typeof(CarType)))
+        {
+            <option>@carType</option>
+        }
+    </select>
+</div>
+<div>
+    <button id="btnEnter" value="Confirm" @onclick="CheckInCar">Confirm</button>
+</div>
+
+@code {
+
+    Car car = new Car();
+
+    private void CheckInCar()
+    {
+        _parkingService.CheckInCar(car);
+        car = new Car();
+    }
+}
