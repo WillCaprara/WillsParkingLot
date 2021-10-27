@@ -5,6 +5,7 @@
 @using WillsParkingLot.Services;
 
 @inject ParkingService _parkingService;
+@inject IToastService _toastService;
 
 <h2>Check In Vehicle</h2>
 
@@ -48,5 +49,7 @@
     {
         _parkingService.CheckInCar(car);
         car = new Car();
+
+        _toastService.ShowSuccess("Success!");
     }
 }

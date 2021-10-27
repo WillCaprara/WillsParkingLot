@@ -1,3 +1,4 @@
+using Blazored.Toast;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
@@ -39,6 +40,7 @@ namespace WillsParkingLot
 
             //Services
             services.AddTransient<ParkingService>();
+            services.AddBlazoredToast();
 
             //Repositories
             services.AddTransient<IParkingRepository, ParkingRepository>();

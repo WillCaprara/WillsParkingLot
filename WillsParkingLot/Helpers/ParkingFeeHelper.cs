@@ -44,7 +44,7 @@ namespace WillsParkingLot.Helpers
                     incrementPercent = rateForCurrentDay.Rate + (rateForCurrentDay.Rate * (rateForCurrentDay.IncrementPercent / 100));
                 }
 
-                parkingFeeToPay = parkingFeeToPay + (rateForCurrentDay.Rate + incrementPercent);
+                parkingFeeToPay = parkingFeeToPay + (incrementPercent != 0? incrementPercent: rateForCurrentDay.Rate);
             }
 
             return parkingFeeToPay;

@@ -117,8 +117,8 @@ namespace WillsParkingLot.Services
             try
             {
                 //parking.LeaveTime = new DateTime(2021, 10, 22, 9, 30, 48);
-                parking.LeaveTime = new DateTime(2021, 10, 26, 9, 00, 48);
-                //parking.LeaveTime = DateTime.Now;
+                //parking.LeaveTime = new DateTime(2021, 10, 26, 9, 00, 48);
+                parking.LeaveTime = DateTime.Now;
                 _parkingRepository.CheckOutCar(parking);
 
                 var totalParkingFee = await _parkingFeeHelper.GetParkingFee(parking);
