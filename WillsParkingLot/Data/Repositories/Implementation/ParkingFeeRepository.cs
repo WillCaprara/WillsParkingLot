@@ -25,6 +25,13 @@ namespace WillsParkingLot.Data.Repositories.Implementation
 
         public async Task<IEnumerable<ParkingFee>> GetEarningsAsync(DateTime? dtFrom, DateTime? dtToo)
         {
+            if(dtFrom == null && dtToo == null)
+            {
+                return await _dbContext.ParkingFees.Include(c => c.Parking)
+                                             .Include(c => c.Parking.Car).ToListAsync();
+                                             
+            }
+
             return await _dbContext.ParkingFees.Include(c => c.Parking)
                                                .Include(c => c.Parking.Car)
                                                .Where(c => c.Parking.LeaveTime.Value.Date >= dtFrom.Value.Date && c.Parking.LeaveTime.Value.Date <= dtToo.Value.Date).ToListAsync();
